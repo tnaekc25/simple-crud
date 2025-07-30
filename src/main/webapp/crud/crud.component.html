@@ -1,0 +1,114 @@
+<div>
+
+    <p-toast></p-toast>
+    <p-toolbar>
+
+        <ng-template pTemplate="left">LOGO</ng-template>
+
+        <ng-template pTemplate="center">
+            <p-input-group>
+                <input type = "text" pInputText [(ngModel)]="search_id" placeholder = "name">
+                <p-inputgroup-addon>
+                    <p-button (click)="search(search_id)" icon = "pi pi-search"/>
+                </p-inputgroup-addon>
+            </p-input-group>
+
+        </ng-template>
+
+        <ng-template pTemplate="right">
+            <p-button (click) = "addEvent()" icon = "pi pi-plus" label = "Add New Person"/>
+        </ng-template>
+
+    </p-toolbar>
+
+    <p-table showGridlines [value] = "person_list" [columns]="colns">
+
+    <ng-template pTemplate = "header">
+        <tr>
+            <th pSortableColumn="id" style="text-align:center">Id</th>
+            <th pSortableColumn="name" style="text-align:center">Name</th>
+            <th pSortableColumn="gender" style="text-align:center">Gender</th>
+            <th pSortableColumn="age" style="text-align:center">Age</th>
+            <th pSortableColumn="bloodType" style="text-align:center">Blood Type</th>
+            <th style = "user-select : none" style="text-align:center">Actions</th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate = "body" let-person>
+        <tr>
+            <td>{{person.id}}</td>
+            <td>{{person.name}}</td>
+            <td>{{person.gender}}
+            </td><td>{{person.age}}</td>
+            <td>{{person.bloodType}}</td>
+
+            <td style = "width:8%">
+                <p-buttongroup style="display: flex; justify-content: center;">
+                    <p-button (click)="preEdit(person)" icon = "pi pi-pencil"></p-button>
+                    <p-button (click)="preDelete(person)" icon = "pi pi-times"></p-button>
+                </p-buttongroup>
+            </td>
+        </tr>
+    </ng-template>
+
+    </p-table>
+
+    <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'30%'}">
+        <div class="flex align-items-center justify-content-center">
+            <span *ngIf="current_person">Are you sure you want to delete <b>{{current_person.name}}</b>?</span>
+        </div>
+
+        <ng-template pTemplate = "footer">
+            <p-button (click)="confirmDelete()">Yes</p-button>
+            <p-button (click)="cancelDelete()">No</p-button>
+        </ng-template>
+    </p-dialog>
+
+
+    <p-dialog [(visible)]="productDialog" [style]="{width: '30%', height:'60%'}" header="Person Details" [modal]="true" class="p-fluid">
+        <ng-template pTemplate="content">
+            <p-inputgroup>
+                <p-inputgroup-addon class = "w-5rem"><label for="name">Name</label></p-inputgroup-addon>
+                <input type="text" pInputText id="name" [(ngModel)]="current_person.name" required autofocus/>
+            </p-inputgroup>
+
+            <p-inputgroup>
+                <p-inputgroup-addon class = "w-5rem"><label for="gender">Gender</label></p-inputgroup-addon>
+                <input type="text" pInputText id="gender" [(ngModel)]="current_person.gender" required autofocus/>
+            </p-inputgroup>
+
+            <p-inputgroup>
+                <p-inputgroup-addon class = "w-5rem"><label for="age">Age</label></p-inputgroup-addon>
+                <p-inputNumber id="age" [(ngModel)]="current_person.age"></p-inputNumber>
+            </p-inputgroup>
+
+            <p-inputgroup>
+                <p-inputgroup-addon class = "w-10rem">
+                    <label for="bloodType">Blood Type</label></p-inputgroup-addon>
+                <p-dropdown id="bloodType" [options]="btypes" optionValue="value" optionLabel="label" [(ngModel)]="current_person.bloodType" placeholder="Select a Blood Type">
+
+
+                    <ng-template pTemplate="selectedItem">
+                        <span
+                         *ngIf="current_person && current_person.bloodType"
+                          [class]="'type-badge status-' + current_person.bloodType">
+                          {{current_person.bloodType}}</span>
+
+                    </ng-template>
+                    <ng-template let-type pTemplate="type">
+                        <span [class]="'type-badge status-' + type.value">{{type.value}}</span>
+                    </ng-template>
+                </p-dropdown>
+            </p-inputgroup>
+
+        </ng-template>
+
+        <ng-template pTemplate = "footer">
+            <p-button (click) = 'realAdd()'>Yes</p-button>
+            <p-button (click) = 'cancelAdd()'>No</p-button>
+        </ng-template>
+
+
+    </p-dialog>
+
+</div>
