@@ -24,8 +24,7 @@ public class MongoClass {
     MongoCollection<Document> collection;
 
     public MongoClass() {
-        String connectionString =
-                "mongodb+srv://tnaekc2:Dyd4SOsRAytxnl57@cluster0.ohvmqko.mongodb.net/Test?retryWrites=true&w=majority&appName=Cluster0";
+        String connectionString = "";
         ServerApi serverApi = ServerApi.builder()
                 .version(ServerApiVersion.V1)
                 .build();
